@@ -1,11 +1,19 @@
 ## python 爬虫示例仓库
 ### getArticle
-#### getArticle
+    1. getArticle
+    
     爬虫获取文章内容(以金融之家 http://www.jrzj.com/ 为例)标题写入txt
-#### getArticleInCSV
+    2.getArticleInCSV
+    
     爬虫获取文章内容(以金融之家 http://www.jrzj.com/ 为例)标题，标签，日期写入csv
+    3.getArticleSql
+    
+    爬取文章保存到数据库
+
 ### getPic
-#### get_pic
+    1.get_pic
+    
     下载漫画
-#### get_pic_thread
+    2.get_pic_thread
+    
     多线程下载漫画
