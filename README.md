@@ -26,3 +26,7 @@
     1.download
     http://www.sdedu.gov.cn/sdjy/_ztzl/810993/917785/index.html
     这个连接中有不少培养质量报告，把这些学校的报告下载下来。主要是文件命名上，要体现出报告的学校和年度，比如：济南大学       2014.pdf，山东大学2015.pdf等
+
+### html2pdf
+    1.html2pdf
+    将html网页保存为pdf文档
