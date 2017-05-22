@@ -1,7 +1,7 @@
 ## python 爬虫示例仓库
 ### getArticle
     1. getArticle
-    
+
     爬虫获取文章内容(以金融之家 http://www.jrzj.com/ 为例)标题写入txt
     2.getArticleInCSV
     
@@ -12,7 +12,7 @@
 
 ### getPic
     1.get_pic
-    
+
     下载漫画
     2.get_pic_thread
     
@@ -30,3 +30,10 @@
 ### html2pdf
     1.html2pdf
     将html网页保存为pdf文档
+### dealViewState
+
+```
+1. contact.py
+处理页面中的viewstate参数
+```
+
