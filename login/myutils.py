@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
 #-*-coding : utf-8 -*-
 from urllib.request import urlretrieve
-from wordpress_xmlrpc.compat import xmlrpc_client
-from wordpress_xmlrpc.methods import media
 from email.mime.text import MIMEText
 from email.header import Header
 import smtplib
 import traceback
-import os
+import os,re
 
-from conf import readEmailConf
+
+# 根据url 获取主机名
+def getHost(url):
+    reg = r'^https?:\/\/([a-z0-9\-\.]+)[\/\?]?'
+    m = re.match(reg, url)
+    uri = m.groups()[0] if m else ''
+    host=uri[uri.rfind('.', 0, uri.rfind('.')) + 1:]
+    return host
+
 
 #加载user_agents配置文件
 def load_user_agent():
@@ -31,23 +37,6 @@ def get_image(image_url,image_name):
 	#print('下载了--->'+image_name)
 	urlretrieve(image_url,'images/'+image_name)
 
-#上传图片
-'''
-根据图片路径将图片上传到wordpress
-
-返回attachment_id
-'''
-def upload_image(image_name,client):
-	data={
-		'name':image_name,
-		'type':'image/jpeg'
-	}
-	with open('images/'+image_name, 'rb') as img:
-		data['bits'] = xmlrpc_client.Binary(img.read())
-	response = client.call(media.UploadFile(data))
-	#print('上传了--->'+image_name)
-	attachment_id = response['id']
-	return attachment_id
 
 
 #将文章标题写入文件
@@ -71,8 +60,7 @@ example: 以新浪邮箱为例
 send_email('user','sina.com','user@sina.com','xxxx@qq.com','smtp.sina.com','您的爬虫出现异常\n'+m,'wpspider','user@sina.com','abc123')
 '''
 
-def send_email(m):
-	email=readEmailConf()
+def send_email(m,email):
 	try:
 		msg=MIMEText(email.message+m,'plain','utf-8')
 		me="Wpspider"+"<"+email.mail_user+"@"+email.mail_postfix+">" 

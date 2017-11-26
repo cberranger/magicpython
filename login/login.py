@@ -3,7 +3,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os,random
-#from myutils import load_user_agent
+from myutils import *
 # 首先发起一次请求来获取参数名和验证码等
 
 
@@ -23,7 +23,7 @@ def load_user_agent():
 #设置请求头
 def setHeader(url):
 	#抽取URL中的主机名
-	host=url.replace('https://','')
+	host=getHost(url)
 	length = len(user_agents)
 	index=random.randint(0,length-1)
 	user_agent = user_agents[index]
@@ -44,7 +44,6 @@ def getParams(url):
 	print(paramDoc.status_code)
 	bsObj=BeautifulSoup(paramDoc.content,'html.parser')
 	for inmark in bsObj.find_all('input'):
-		#print(inmark)
 		if('name' in inmark.attrs):
 			name=inmark.attrs['name']
 			print(name)
