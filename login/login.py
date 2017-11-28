@@ -41,12 +41,19 @@ def getParams(url):
 	headers=setHeader(url)
 	bsObj=requests.session()
 	paramDoc=bsObj.get(url,headers=headers)
-	print(paramDoc.status_code)
-	bsObj=BeautifulSoup(paramDoc.content,'html.parser')
+	print('状态码：',paramDoc.status_code)
+	bsObj=BeautifulSoup(paramDoc.content,'html.parser').find('div',{'id':'Main'})
 	for inmark in bsObj.find_all('input'):
 		if('name' in inmark.attrs):
 			name=inmark.attrs['name']
 			print(name)
+
+	for div in bsObj.find_all('div'):
+		if('style' in div.attrs):
+			style=div.attrs['style']
+			image_url='https://'+getHost(url)+style.split(';')[0].split('/')[1].split("'")[0]
+			#print(imageurl)
+			get_image(image_url,image_url.split('=')[1]+'.jpg')
 
 
 
