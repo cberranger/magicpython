@@ -51,9 +51,10 @@ def getParams(url):
 	for div in bsObj.find_all('div'):
 		if('style' in div.attrs):
 			style=div.attrs['style']
-			image_url='https://'+getHost(url)+style.split(';')[0].split('/')[1].split("'")[0]
-			#print(imageurl)
+			image_url='https://'+getHost(url)+'/'+style.split(';')[0].split('/')[1].split("'")[0]
+			print(image_url)
 			get_image(image_url,image_url.split('=')[1]+'.jpg')
+			#getValidateCode(image_url)
 
 
 

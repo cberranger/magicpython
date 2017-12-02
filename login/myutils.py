@@ -37,6 +37,13 @@ def get_image(image_url,image_name):
 	#print('下载了--->'+image_name)
 	urlretrieve(image_url,'images/'+image_name)
 
+'''
+获取验证码
+'''
+def getValidateCode(captcha_url):
+	for k in range(10):
+		urlretrieve(captcha_url,'%d.jpg'%k)
+
 
 
 #将文章标题写入文件
