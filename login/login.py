@@ -53,7 +53,7 @@ def getParams(url):
 			style=div.attrs['style']
 			image_url='https://'+getHost(url)+'/'+style.split(';')[0].split('/')[1].split("'")[0]
 			print(image_url)
-			get_image(image_url,image_url.split('=')[1]+'.jpg')
+			get_image(image_url,image_url.split('=')[1]+'.png')
 			#getValidateCode(image_url)
 
 
