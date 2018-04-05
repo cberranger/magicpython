@@ -54,5 +54,5 @@ def html2pdf(url,tag,name,value):
 '''
 example
 '''
-url='http://blog.magicdu.cn/317.html'
-html2pdf(url,'article','class','article-content')
+url='http://www.51testing.com/html/71/410671-845364.html'
+html2pdf(url,'div','class','xspace-layout1')
