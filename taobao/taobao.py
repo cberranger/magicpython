@@ -4,6 +4,7 @@ import requests
 import re,json
 from bs4 import BeautifulSoup
 import xlwt
+import time
 def parseJsonp(jsonpStr):
     try:
         return re.search('^[^(]*?\((.*)\)[^)]*$', jsonpStr).group(1)
@@ -29,7 +30,9 @@ for item in itemList:
 
 dataList=[]
 for i in range(0,10):
-    url=('https://s.taobao.com/search?data-key=s&data-value={}&ajax=true&_ksTS=1522975688691_652&callback=&q=%E6%89%8B%E6%9C%BA&imgfile=&commend=all&ssid=s5-e&search_type=item&sourceId=tb.index&spm=a21bo.2017.201856-taobao-item.1&ie=utf8&initiative_id=tbindexz_20170306&p4ppushleft=5%2C48').format(i*48)
+    ksts_time=time.time()
+    ksTs='%s_%s' %(int(ksts_time*1000),str(ksts_time)[-3:])
+    url=('https://s.taobao.com/search?data-key=s&data-value={}&ajax=true&_ksTS={}&callback=&q=%E6%89%8B%E6%9C%BA&imgfile=&commend=all&ssid=s5-e&search_type=item&sourceId=tb.index&spm=a21bo.2017.201856-taobao-item.1&ie=utf8&initiative_id=tbindexz_20170306&p4ppushleft=5%2C48').format(i*48,ksTs)
     response=requests.get(url)
     jsonDict=json.loads(response.text)
     itemList=jsonDict['mods']['grid']['data']['spus']
