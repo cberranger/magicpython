@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #-*-coding:utf-8
 from bs4 import BeautifulSoup
-import requests
+import requests,re,os,json,time,csv
 from urllib.request import urlretrieve
 
 html_template = """
@@ -21,7 +21,7 @@ __EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=&__VIEWSTATE=%2FwEPDwUKMTY1NjcyNzU1N
 
 
 def getContact():
-	url="http://share.ieslab.cn/addressbook.aspx"
+	url="http://o.ieslab.cn/addressbook.aspx"
 	html=requests.get(url).content
 	bsObj=BeautifulSoup(html,'html.parser')
 	#print(bsObj.content)
@@ -44,8 +44,52 @@ def getContact():
 	table=contactObj.find('table',{'class':'recipe'})
 	html=html_template.format(content=table)
 	html = html.encode("utf-8")
-	#print(table)
-	with open('contact.html','wb') as f:
-		f.write(html)
+	#print(table.encode("gb2312"))
+	#print(table.encode("utf-8"))
+	return table.encode("utf-8")	
 
-getContact()
+def convert_table_to_excel(table_content,n):
+	#expression=r'<tr>'+r'(.|\/n)*?<td>(.*?)</td>'+r'(.|\/n)*?</tr>'
+	#expression=r'<tr>'+r'.*?<td(.*?)</td>'+r'.?</tr>'
+	expression='<tr>.*?<td.*?>(.*?)</td>.*?<td.*?>(.*?)</td>.*?<a.*?>(.*?)</a>.*?<td.*?>(.*?)</td>.*?<td.*?>(.*?)</td>.*?<td.*?>(.*?)</td>.*?<td.*?>(.*?)</td>.*?<td.*?>(.*?)</td>.*?<td.*?>(.*?)</td>.*?<a.*?>(.*?)</a>.*?</tr>'
+	#expression='<tr>.*?(<td.*?>(.*?)</td>.*?){2}<a.*?>(.*?)</a>.*?(<td.*?>(.*?)</td>.*?){5}<a.*?>(.*?)</a>.*?</tr>'
+	pattern=re.compile(expression,re.S)
+	items=re.findall(pattern,table_content.decode('utf-8'))
+	#print(items[2])
+	for item in items:
+		yield{
+            'index':item[0],
+            'id':"".join(item[1].split()),
+            'name,':item[2].strip(),
+            'phone':"".join(item[3].split()),
+		    'mobile':"".join(item[4].split()),
+            'homephone':"".join(item[5].split()),
+            'department':"".join(item[6].split()),
+			'post':"".join(item[7].split()),
+			'room':"".join(item[8].split()),
+			'email':item[9]
+        }
+		with open('data.csv', 'a', encoding='utf-8') as csvfile:
+			fieldnames = ['index', 'id', 'name','phone','mobile','homephone','department','post','room','email']
+			writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+			writer.writerow({'index':item[0], 'id':item[1], 'name': item[2],'phone': item[3],'mobile':item[4], 'homephone':item[5], 'department': item[6],'post': item[7],'room': item[8],'email':item[9]})	
+
+def write_to_file(content):
+    with open('result.txt','a',encoding='utf-8') as f:
+        f.write(json.dumps(content,ensure_ascii=False)+'\n')
+
+
+def write_to_csv(item):
+	with open('data.csv', 'a', encoding='utf-8') as csvfile:
+		fieldnames = ['index', 'id', 'name','phone','mobile','homephone','department','post','room','email']
+		writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+		writer.writerow({'index':item[0], 'id':item[1], 'name': item[2],'phone': item[3],'mobile':item[4], 'homephone':item[5], 'department': item[6],'post': item[7],'room': item[8],'email':item[9]})
+
+
+
+
+html=getContact()
+for item in convert_table_to_excel(html,1):
+	#print(item)
+	write_to_file(item)
+	#write_to_csv(item)
