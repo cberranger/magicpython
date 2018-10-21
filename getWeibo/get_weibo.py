@@ -33,19 +33,21 @@ def setHeader(url):
 	return headers
 
 def get_weibo(url):
-    headers=setHeader(url)
-    bsObj=requests.session()
-    response=bsObj.get(url,headers=headers)
-    jsonDict=json.loads(response.text)
-    userArray=jsonDict['data']['data']
-    for i in range(0,len(userArray)-1):
-        name=userArray[i]['user']['screen_name']
-        with open('name.txt','a') as f:
-            f.write(name+"\n")
+	headers=setHeader(url)
+	bsObj=requests.session()
+	response=bsObj.get(url,headers=headers)
+	jsonDict=json.loads(response.text)
+	#print(jsonDict)
+	userArray=jsonDict['data']['data']
+	for i in range(0,len(userArray)-1):
+		name=userArray[i]['user']['screen_name']
+		with open('name.txt','a') as f:
+			f.write(name+"\n")
 
 user_agents=load_user_agent()
-url='https://m.weibo.cn/api/comments/show?id=4296757011387577&page='
-for i in range(0,100):
+#url='https://m.weibo.cn/api/comments/show?id=4296757011387577&page='
+url='https://m.weibo.cn/api/statuses/repostTimeline?id=4296757011387577&page='
+for i in range(1,100):
     get_weibo(url+str(i))
 
 
