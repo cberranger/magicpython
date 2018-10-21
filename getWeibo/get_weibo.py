@@ -27,7 +27,7 @@ def setHeader(url):
 		'Referer': url,
 		'User-Agent':user_agent,
 		'scheme':'https',
-		'cookie':'''_T_WM=e338e7d89be85241bac82c214477a7bf; WEIBOCN_FROM=1110006030; MLOGIN=1; M_WEIBOCN_PARAMS=lfid%3D102803%26luicode%3D20000174%26uicode%3D20000174; SUB=_2A252z0MlDeRhGeNL41IY8irPyzSIHXVSMG1trDV6PUJbkdAKLWHdkW1NSMkFgaHxpIzHbkjIIqBNlW4dsOIQl6IO; SUHB=0P1cvrrFiUrMZ_; SCF=ApJhrqZEjQoCXzzvq43Bf7IClcnnxzyZpPCGF2rNaNL9JqnO1X_1S-wzb7yvb-uczmeClUepmhGScEnXWQPVlpU.; SSOLoginState=1540043637''',
+		'cookie':'''''',
 		'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
 	}
 	return headers
