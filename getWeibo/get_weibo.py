@@ -27,7 +27,7 @@ def setHeader(url):
 		'Referer': url,
 		'User-Agent':user_agent,
 		'scheme':'https',
-		'cookie':'''''',
+		'cookie':''' ''',
 		'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
 	}
 	return headers
@@ -44,10 +44,28 @@ def get_weibo(url):
 		with open('name.txt','a') as f:
 			f.write(name+"\n")
 
+def get_page(url):
+	headers=setHeader(url)
+	bsObj=requests.session()
+	response=bsObj.get(url,headers=headers)
+	jsonDict=json.loads(response.text)
+	return jsonDict['data']['max']
+	
+
+
+
 user_agents=load_user_agent()
-#url='https://m.weibo.cn/api/comments/show?id=4296757011387577&page='
-url='https://m.weibo.cn/api/statuses/repostTimeline?id=4296757011387577&page='
-for i in range(1,100):
-    get_weibo(url+str(i))
+page=get_page('https://m.weibo.cn/api/statuses/repostTimeline?id=4296757011387577&page=1')
+for i in range(1,page):
+	url='https://m.weibo.cn/api/statuses/repostTimeline?id=4296757011387577&page='
+	url=url+str(i)
+	print(url)
+	try:
+		get_weibo(url)
+	except KeyError as identifier:
+		i=i-1
+		pass
+	continue
+	
 
 
