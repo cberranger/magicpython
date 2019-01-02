@@ -27,7 +27,7 @@ def setHeader(url):
 		'Referer': url,
 		'User-Agent':user_agent,
 		'scheme':'https',
-		'cookie':''' ''',
+		'cookie':'''''',
 		'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
 	}
 	return headers
@@ -55,9 +55,10 @@ def get_page(url):
 
 
 user_agents=load_user_agent()
-page=get_page('https://m.weibo.cn/api/statuses/repostTimeline?id=4296757011387577&page=1')
+weibo_id='4299028407120518'
+page=get_page('https://m.weibo.cn/api/statuses/repostTimeline?id='+weibo_id+'&page=1')
 for i in range(1,page):
-	url='https://m.weibo.cn/api/statuses/repostTimeline?id=4296757011387577&page='
+	url='https://m.weibo.cn/api/statuses/repostTimeline?id='+weibo_id+'&page='
 	url=url+str(i)
 	print(url)
 	try:
