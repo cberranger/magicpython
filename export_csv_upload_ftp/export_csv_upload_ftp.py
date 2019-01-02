@@ -9,12 +9,15 @@ import configparser
 
 
 class Db(object):
-	def __init__(self,db_host,db_port,db_user,db_passwd,db_name):
+        def __init__(self,db_host,db_port,db_user,db_passwd,db_name):
                 self.db_host = db_host
                 self.db_port=db_port
                 self.db_user=db_user
                 self.db_passwd=db_passwd
                 self.db_name=db_name
+        def to_database_str(self):
+                database_str=self.db_user+'/'+self.db_passwd+'@'+self.db_host+':'+str(self.db_port)+'/'+self.db_name
+                return database_str
 
 class MyFtp(object):
 	def __init__(self,ftp_host,ftp_port,ftp_user,ftp_passwd):
@@ -22,6 +25,7 @@ class MyFtp(object):
 		self.ftp_port=ftp_port
 		self.ftp_user=ftp_user
 		self.ftp_passwd=ftp_passwd
+
 
 # read db config from db.conf
 def readDBConf():
@@ -45,6 +49,12 @@ def readFTPConf():
 	ftp_passwd = cf.get("ftp", "ftp_passwd")
 	myftp=MyFtp(ftp_host,ftp_port,ftp_user,ftp_passwd)
 	return myftp 
+# get log level
+def readLogConf():
+        cf = configparser.ConfigParser()
+        cf.read('db.conf')
+        log_level = cf.get("log", "log_level")
+        return log_level
 
 # create connection to ftp
 def ftpconnect(yourftp):
@@ -79,9 +89,24 @@ def zip_files( files, zip_name ):
     zip.close()
     print ('compressing finished')
 
+# write log to database or file or print 
+def write_log(log_name,log_content,author,log_id):
+        log_level=readLogConf()
+        if log_level==0:
+                pass
+        elif log_level==1:
+                print_log()
+        elif log_level==2:
+                log_to_file()
+        elif log_level==3:
+                log_to_database()                        
+
+
+
+
 # execute sql and generate csv file 
 def sql_to_scv(db,sql,csv_name):
-        database_str=db.db_user+'/'+db.db_passwd+'@'+db.db_host+':'+str(db.db_port)+'/'+db.db_name
+        database_str=db.to_database_str()
         conn=cxo.connect(database_str)
         curs=conn.cursor()
         rr=curs.execute(sql)
@@ -93,13 +118,16 @@ def sql_to_scv(db,sql,csv_name):
         conn.close()                
 
 
-if __name__ == "__main__":
+def do_all_thing(sql,csv_name,zip_file_name,file_name,remote_path,local_path):
         db=readDBConf()
         my_ftp=readFTPConf()
-        sql='select * from r_tmnl_run  where rownum<1000'
-        csv_name='articles'
         sql_to_scv(db,sql,csv_name)
-        zip_files(['articles.csv'],'articles')
+        zip_files(zip_file_name,csv_name)
         ftp=ftpconnect(my_ftp)
-        uploadfile(ftp,'pub/articles.zip','articles.zip')
+        uploadfile(ftp,remote_path,local_path)
         ftp.quit()
+
+
+if __name__ == "__main__":
+        sql='select * from r_tmnl_run  where rownum<1000'
+        do_all_thing(sql,'articles',['articles.csv'],'articles','pub/articles.zip','articles.zip')
