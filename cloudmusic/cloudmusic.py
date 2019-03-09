@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 #-*-coding : utf-8 -*-
 import requests,random,os,json,bs4
+import execjs
 #加载user_agents配置文件
 def load_user_agent():
 	user_agents=[]
@@ -42,7 +43,25 @@ def get_music_with_nickname(nickname):
 	#找到div --'zuixinfabu'--->找到所有dd标签
     dd_list=soup.find('div',{'class':'ttc'})
     print(dd_list)
-	
 
-user_agents=load_user_agent()
-get_music_with_nickname('花添小窗浓')
+## load js in str from file	
+def loadJsFile(filename):
+	f=open(filename,'r',encoding="utf-8")
+	line=f.readline()
+	jsstr=''
+	while line:
+		jsstr+=line
+		line=f.readline()
+	return jsstr
+
+def execJsMethod(method_name):
+	jsstr=loadJsFile('core_old.js')
+	ctx=execjs.compile(jsstr)
+	return ctx.call(method_name,"hello")
+
+
+#user_agents=load_user_agent()
+#get_music_with_nickname('花添小窗浓')
+if __name__ == "__main__":
+	print(execJsMethod(myFunc))
+	
