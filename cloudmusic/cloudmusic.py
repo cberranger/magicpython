@@ -54,14 +54,28 @@ def loadJsFile(filename):
 		line=f.readline()
 	return jsstr
 
-def execJsMethod(method_name):
+def execJsMethod(method_name,jsonstr):
 	jsstr=loadJsFile('core_old.js')
 	ctx=execjs.compile(jsstr)
-	return ctx.call(method_name,"hello")
+	return ctx.call(method_name,jsonstr)
+
+def getUserInfo(apiurl,paramstr):
+	params=paramstr.get("encSecKey")
+	encKey=paramstr.get("encText")
+	headers=setHeader(apiurl)
+	bsObj=requests.session()
+	response=bsObj.post(url=apiurl,data=paramstr,headers=headers)
+	return response.text
+
+	
 
 
-#user_agents=load_user_agent()
+user_agents=load_user_agent()
 #get_music_with_nickname('花添小窗浓')
 if __name__ == "__main__":
-	print(execJsMethod(myFunc))
+	jsonstr={'s':'花添小窗浓','type':'1002'}
+	paramstr=execJsMethod("myFunc",jsonstr)
+	apiurl='https://music.163.com/weapi/cloudsearch/get/web?csrf_token='
+	text=getUserInfo(apiurl,paramstr)
+	print(text)
 	
