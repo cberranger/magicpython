@@ -34,15 +34,25 @@ def setHeader(url):
 	}
 	return headers
 
+# 将信息写入excel
+def writelist2excel(head_list_alias,head_list,data_list,file_name):
+	f=xlwt.Workbook(encoding='utf-8')
+	sheet01=f.add_sheet(u'sheet1',cell_overwrite_ok=True)
+	for i in range(len(head_list_alias)):
+		sheet01.write(0,i,head_list_alias[i])
+	for m in range(len(data_list)):
+		for n in range(len(head_list)):
+			sheet01.write(m+1,n,data_list[m][head_list[n]])
+	f.save(file_name+'.xls')
+
+# 获取职位信息
 def get_jobinfo(url):
 	dataList=[]
 	headers=setHeader(url)
 	bsObj=requests.session()
 	response=bsObj.get(url,headers=headers)
 	jsonDict=json.loads(response.text)
-	#print(jsonDict)
 	userArray=jsonDict['data']['results']
-	#print(userArray)
 	for i in range(0,len(userArray)-1):
 		temp={
 			'companyName':userArray[i]['company']['name'],
@@ -53,37 +63,22 @@ def get_jobinfo(url):
 			'companyType':userArray[i]['company']['type']['name'],
 			'positionURL':userArray[i]['positionURL']
 		}
-		print(temp)
 		dataList.append(temp)
-	f=xlwt.Workbook(encoding='utf-8')
-	sheet01=f.add_sheet(u'sheet1',cell_overwrite_ok=True)
-	sheet01.write(0,0,'公司名')
-	sheet01.write(0,1,'地区')
-	sheet01.write(0,2,'职位名称')
-	sheet01.write(0,3,'薪资')
-	sheet01.write(0,4,'更新日期')
-	sheet01.write(0,5,'企业类型')
-	sheet01.write(0,5,'职位链接')
-	for m in range(len(dataList)):
-		sheet01.write(m+1,0,dataList[m]['companyName'])
-		sheet01.write(m+1,1,dataList[m]['area'])
-		sheet01.write(m+1,2,dataList[m]['jobName'])
-		sheet01.write(m+1,3,dataList[m]['salary'])
-		sheet01.write(m+1,4,dataList[m]['updateDate'])
-		sheet01.write(m+1,5,dataList[m]['companyType'])  
-		sheet01.write(m+1,6,dataList[m]['positionURL'])  
-	f.save('招聘信息.xls')
+	return dataList
 
 	
 
 user_agents=load_user_agent()
-for i in range(0,1):
+data_l=[]
+head_l_a=['公司名','工作地点','职位名称','薪资','更新日期','公司类型','职位链接']
+head_l=['companyName','area','jobName','salary','updateDate','companyType','positionURL']
+for i in range(0,12):
 	url='https://fe-api.zhaopin.com/c/i/sou?start='+str(i*90)+'&pageSize=90&cityId=702&workExperience=-1&education=-1&companyType=-1&employmentType=-1&jobWelfareTag=-1&kw=java&kt=3&_v=0.31803229&x-zp-page-request-id=b64b9303e5d34db5a4a528770e68d4ef-1557055947992-764249'
-	print(url)
 	try:
-		get_jobinfo(url)
+		data_l+=get_jobinfo(url)
 	except KeyError as identifier:
 		i=i-1
 		pass
 	continue
-	
+print(len(data_l))
+writelist2excel(head_l_a,head_l,data_l,'招聘信息')	
