@@ -43,6 +43,6 @@ def uploadDirFile(file_dir, api_url):
 
 if __name__ == "__main__":
     #url = 'http://localhost:8020/scaleDetails/importScaleDetail'
-    url = 'http://localhost:8020/PortalScaleExpression/importExpression'
+    url = 'http://192.168.10.243:8020/PortalScaleExpression/importExpression'
     base_dir = 'E:/work/趣味量表/aaaabbbb/'
     uploadDirFile(base_dir, url)
