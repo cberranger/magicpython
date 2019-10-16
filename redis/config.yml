@@ -1,0 +1,13 @@
+redis:
+    #单机配置
+    host: 192.168.10.191
+    port: 6379
+    timeout: 6000
+    password: 
+    database: 0
+    max_connections: 1024
+    decode_responses: True
+    ##sentinel配置
+    sentinel:
+      nodes: 192.168.10.191:26379,192.168.10.192:26379,192.168.10.193:26379
+      master: mymaster
