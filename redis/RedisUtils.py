@@ -4,6 +4,10 @@
 
 import os
 import yaml
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
 import redis
 
 
@@ -11,7 +15,7 @@ import redis
 def loadYmlConfig():
     file = open('config.yml', 'r', encoding='utf-8')
     stream = file.read()
-    config = yaml.load(stream, Loader=yaml.CLoader)
+    config = yaml.load(stream, Loader=Loader)
     return config
 
 
