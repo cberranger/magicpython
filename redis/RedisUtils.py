@@ -44,8 +44,7 @@ def getRedisConnection():
 # 获取 redis 连接池
 
 
-def getRedisConnectionPool():
-    config = getRedisConfig()
+def getRedisConnectionPool(config):
     pool = redis.ConnectionPool(host=config.host, port=config.port,
                                 password=config.password, max_connections=config.max_connections)
     return pool
@@ -53,8 +52,9 @@ def getRedisConnectionPool():
 
 # 使用连接池获取 redis 连接
 def getRedisConnectionWithPool():
-    pool = getRedisConnectionPool()
-    connection = redis.Redis(connection_pool=pool)
+    config = getRedisConfig()
+    pool = getRedisConnectionPool(config)
+    connection = redis.Redis(connection_pool=pool,decode_responses=config.decode_responses)
     return connection
 
 
