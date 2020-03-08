@@ -7,11 +7,17 @@ import time
 import requests
 import json
 import yaml
+import re
 try:
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
     from yaml import Loader, Dumper
 
+def getIP():
+    ip= requests.get("https://api.ipify.org/?format=json")
+    ip=json.loads(ip.text)
+    return ip['ip']
+    
 # 加载yaml文件
 def loadYmlConfig():
     file = open('bootstrap.yml', 'r', encoding='utf-8')
