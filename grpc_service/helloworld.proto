@@ -1,4 +1,5 @@
 syntax = "proto3";
+package com.magicdu.grpc.service;
 // The greeting service definition.
 service Greeter {
     // Sends a greeting

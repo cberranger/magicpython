@@ -15,10 +15,10 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='helloworld.proto',
-  package='',
+  package='com.magicdu.grpc.service',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x10helloworld.proto\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t23\n\x07Greeter\x12(\n\x08SayHello\x12\r.HelloRequest\x1a\x0b.HelloReply\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x10helloworld.proto\x12\x18\x63om.magicdu.grpc.service\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t2e\n\x07Greeter\x12Z\n\x08SayHello\x12&.com.magicdu.grpc.service.HelloRequest\x1a$.com.magicdu.grpc.service.HelloReply\"\x00\x62\x06proto3'
 )
 
 
@@ -26,13 +26,13 @@ DESCRIPTOR = _descriptor.FileDescriptor(
 
 _HELLOREQUEST = _descriptor.Descriptor(
   name='HelloRequest',
-  full_name='HelloRequest',
+  full_name='com.magicdu.grpc.service.HelloRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='HelloRequest.name', index=0,
+      name='name', full_name='com.magicdu.grpc.service.HelloRequest.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -50,20 +50,20 @@ _HELLOREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=20,
-  serialized_end=48,
+  serialized_start=46,
+  serialized_end=74,
 )
 
 
 _HELLOREPLY = _descriptor.Descriptor(
   name='HelloReply',
-  full_name='HelloReply',
+  full_name='com.magicdu.grpc.service.HelloReply',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='message', full_name='HelloReply.message', index=0,
+      name='message', full_name='com.magicdu.grpc.service.HelloReply.message', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -81,8 +81,8 @@ _HELLOREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=50,
-  serialized_end=79,
+  serialized_start=76,
+  serialized_end=105,
 )
 
 DESCRIPTOR.message_types_by_name['HelloRequest'] = _HELLOREQUEST
@@ -92,14 +92,14 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 HelloRequest = _reflection.GeneratedProtocolMessageType('HelloRequest', (_message.Message,), {
   'DESCRIPTOR' : _HELLOREQUEST,
   '__module__' : 'helloworld_pb2'
-  # @@protoc_insertion_point(class_scope:HelloRequest)
+  # @@protoc_insertion_point(class_scope:com.magicdu.grpc.service.HelloRequest)
   })
 _sym_db.RegisterMessage(HelloRequest)
 
 HelloReply = _reflection.GeneratedProtocolMessageType('HelloReply', (_message.Message,), {
   'DESCRIPTOR' : _HELLOREPLY,
   '__module__' : 'helloworld_pb2'
-  # @@protoc_insertion_point(class_scope:HelloReply)
+  # @@protoc_insertion_point(class_scope:com.magicdu.grpc.service.HelloReply)
   })
 _sym_db.RegisterMessage(HelloReply)
 
@@ -107,16 +107,16 @@ _sym_db.RegisterMessage(HelloReply)
 
 _GREETER = _descriptor.ServiceDescriptor(
   name='Greeter',
-  full_name='Greeter',
+  full_name='com.magicdu.grpc.service.Greeter',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=81,
-  serialized_end=132,
+  serialized_start=107,
+  serialized_end=208,
   methods=[
   _descriptor.MethodDescriptor(
     name='SayHello',
-    full_name='Greeter.SayHello',
+    full_name='com.magicdu.grpc.service.Greeter.SayHello',
     index=0,
     containing_service=None,
     input_type=_HELLOREQUEST,
