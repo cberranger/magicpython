@@ -17,6 +17,7 @@ def bar_chart() -> Bar:
         .set_series_opts(label_opts=opts.LabelOpts(position="right"))
         .set_global_opts(title_opts=opts.TitleOpts(title="Bar-测试渲染图片"))
     )
+    print(c)
     return c
 
 # 需要安装 snapshot-selenium 或者 snapshot-phantomjs

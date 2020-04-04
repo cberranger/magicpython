@@ -3,10 +3,21 @@ import grpc
 import time
 import helloworld_pb2
 import helloworld_pb2_grpc
+import requests
+import json
+
+def getIP():
+    ip= requests.get("https://api.ipify.org/?format=json")
+    ip=json.loads(ip.text)
+    return ip['ip']
 
 class Greeter(helloworld_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
-        return helloworld_pb2.HelloReply(message='Hello, %s!' % request.name)
+        responseMsg="127.0.0.1"
+        name=request.name
+        if(name=='ip'):
+            responseMsg=getIP()
+        return helloworld_pb2.HelloReply(message='IP, %s!' % responseMsg)
 
 
 
